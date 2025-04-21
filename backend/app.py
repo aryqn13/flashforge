@@ -6,8 +6,12 @@ from flask_cors import CORS
 from pdf_reader import extract_text_from_pdf
 from ai_engine import generate_flashcards
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', template_folder='templates')
 CORS(app)
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

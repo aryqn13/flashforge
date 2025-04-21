@@ -1,26 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>FlashForge</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="container">
     <h1>FlashForge</h1>
-    <form id="upload-form">
-      <label for="pdf">Upload your study material (PDF):</label>
-      <input type="file" id="pdf" name="pdf" accept="application/pdf" required />
+    <form id="uploadForm">
+      <input type="file" id="pdf" name="pdf" accept=".pdf" required />
       <button type="submit">Generate Flashcards</button>
     </form>
-
-    <div id="output">
-      <h2>Generated Flashcards</h2>
-      <pre id="result"></pre>
-    </div>
+    <pre id="result"></pre>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>

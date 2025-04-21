@@ -1,16 +1,19 @@
-from pdf_reader import extract_text_from_pdf  # import the extractor
+import openai
+import os
+from dotenv import load_dotenv
 
-def generate_flashcards(filepath):
-    text = extract_text_from_pdf(filepath)  # extract text from PDF
-    # Now use `text` as usual
-    return {
-        "mcq": [
-            {"question": "What is AI?", "options": ["Art", "Science", "Artificial Intelligence", "None"], "answer": "Artificial Intelligence"},
-        ],
-        "true_false": [
-            {"statement": "AI stands for Artificial Intelligence.", "answer": True}
-        ],
-        "explanatory": [
-            {"question": "Explain AI", "answer": "AI refers to the simulation of human intelligence in machines."}
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+def generate_flashcards(text):
+    prompt = f"Generate flashcards from this study material:\n{text}\nInclude: MCQs, True/False, and Explanatory Questions."
+    
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You generate flashcards for students."},
+            {"role": "user", "content": prompt}
         ]
-    }
+    )
+    
+    return response['choices'][0]['message']['content']

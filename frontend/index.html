@@ -1,54 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FlashForge</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>FlashForge</h1>
-  <form id="uploadForm">
-    <input type="file" id="pdf" name="pdf" accept=".pdf" required />
-    <button type="submit">Generate Flashcards</button>
-  </form>
+  <div class="container">
+    <h1>FlashForge</h1>
+    <form id="upload-form">
+      <label for="pdf">Upload your study material (PDF):</label>
+      <input type="file" id="pdf" name="pdf" accept="application/pdf" required />
+      <button type="submit">Generate Flashcards</button>
+    </form>
 
-  <pre id="result"></pre>
+    <div id="output">
+      <h2>Generated Flashcards</h2>
+      <pre id="result"></pre>
+    </div>
+  </div>
 
-  <script>
-    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      return false;
-      const fileInput = document.getElementById('pdf');
-      const formData = new FormData();
-      formData.append('pdf', fileInput.files[0]);
-  
-      const res = await fetch('http://localhost:5000/upload', {
-        method: 'POST',
-        body: formData
-      });
-  
-      const data = await res.json();
-      const resultDiv = document.getElementById('result');
-  
-      if (data.flashcards) {
-        const { mcq, true_false, explanatory } = data.flashcards;
-        let output = '<h3>MCQs</h3><ul>';
-        mcq.forEach(q => {
-          output += `<li><strong>${q.question}</strong><br>Options: ${q.options.join(', ')}<br>Answer: ${q.answer}</li>`;
-        });
-        output += '</ul><h3>True/False</h3><ul>';
-        true_false.forEach(q => {
-          output += `<li>${q.statement} — <strong>${q.answer}</strong></li>`;
-        });
-        output += '</ul><h3>Explanatory</h3><ul>';
-        explanatory.forEach(q => {
-          output += `<li><strong>${q.question}</strong><br>${q.answer}</li>`;
-        });
-        output += '</ul>';
-        resultDiv.innerHTML = output;
-      } else {
-        resultDiv.textContent = JSON.stringify(data, null, 2); // fallback
-      }
-    });
-  </script>
-  
+  <script src="script.js"></script>
 </body>
 </html>
